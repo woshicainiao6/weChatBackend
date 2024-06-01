@@ -1,5 +1,6 @@
 <template>
     <div>
+        <BreadCrumb :page="breadcrumbData"></BreadCrumb>
         <div class="OrderTabel">
             <OrderTable></OrderTable>
         </div>
@@ -8,14 +9,18 @@
 
 <script>
 import OrderTable from "@/components/order/OrderTable.vue";
-
+import BreadCrumb from "@/components/Breadcrumb/BreadCrumb.vue";
 export default {
     // import 引入的组件需要注入到对象中才能使用
-    components: {OrderTable},
+    components: {OrderTable,BreadCrumb},
     props: {},
     data() {
         // 这里存放数据
         return {
+            breadcrumbData: [{
+                name: '订单列表',
+                url: "/order"
+            }],
         }
     },
     // 计算属性 类似于 data 概念

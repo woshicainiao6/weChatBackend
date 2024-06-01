@@ -1,5 +1,7 @@
 <template>
     <div>
+        <BreadCrumb :page="breadcrumbData"></BreadCrumb>
+        <operatView @search_event="searchEvent"></operatView>
         <div class="userTable">
             <UserTable></UserTable>
         </div>
@@ -8,34 +10,56 @@
 
 <script>
 import UserTable from "@/components/user/UserTable.vue";
+import BreadCrumb from "@/components/Breadcrumb/BreadCrumb.vue";
+import OperatView from "@/components/UtileView/OperatView.vue";
+import {test} from "@/api/user"
 
 export default {
     // import 引入的组件需要注入到对象中才能使用
     components: {
-        UserTable,
+        UserTable, BreadCrumb, OperatView
     },
     props: {},
     data() {
         // 这里存放数据
-        return {}
+        return {
+            breadcrumbData: [{
+                name: '用户列表',
+                url: "/user"
+            }],
+            searchWord: "",
+
+        }
     },
     // 计算属性 类似于 data 概念
     computed: {},
     // 监控 data 中的数据变化
     watch: {},
     // 方法集合
-    methods: {},
+    methods: {
+        testFn() {
+            test().then(res => {
+                console.log(res.data)
+            })
+        },
+        searchEvent(val) {
+            this.searchWord = val
+            console.log(val)
+        }
+    },
     // 生命周期 - 创建完成（可以访问当前this 实例）
     created() {
     },
     // 生命周期 - 挂载完成（可以访问 DOM 元素）
     mounted() {
+        this.testFn()
     }
 }
 </script>
 
 <style scoped>
-.userTable{
+.userTable {
     width: fit-content;
+    margin-left: 10px;
 }
 </style>
