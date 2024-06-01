@@ -5,7 +5,7 @@
             <div class="BusiCard">
                 <div class="avatar">
                     <template>
-                        <t-avatar size="60px" image="https://tdesign.gtimg.com/site/avatar.jpg"/>
+                        <t-avatar size="60px" image="../img/张路通"/>
                     </template>
 
                 </div>
