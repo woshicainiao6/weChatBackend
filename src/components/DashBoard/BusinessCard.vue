@@ -5,7 +5,7 @@
             <div class="BusiCard">
                 <div class="avatar">
                     <template>
-                        <t-avatar size="60px" image="../img/张路通"/>
+                        <t-avatar size="60px" image="https://mp-c8d80741-4542-43cf-88e7-ecab5d7d5eb7.cdn.bspapp.com/后端图片/张路通.jpg"/>
                     </template>
 
                 </div>
@@ -28,7 +28,7 @@
             <div class="BusiCard">
                 <div class="avatar">
                     <template>
-                        <t-avatar size="60px" image="https://tdesign.gtimg.com/site/avatar.jpg"/>
+                        <t-avatar size="60px" image="https://mp-c8d80741-4542-43cf-88e7-ecab5d7d5eb7.cdn.bspapp.com/后端图片/谢宁馨.jpg"/>
                     </template>
 
                 </div>
@@ -51,7 +51,7 @@
             <div class="BusiCard">
                 <div class="avatar">
                     <template>
-                        <t-avatar size="60px" image="https://tdesign.gtimg.com/site/avatar.jpg"/>
+                        <t-avatar size="60px" image="https://mp-c8d80741-4542-43cf-88e7-ecab5d7d5eb7.cdn.bspapp.com/后端图片/孙子强.jpg"/>
                     </template>
 
                 </div>
@@ -74,7 +74,7 @@
             <div class="BusiCard">
                 <div class="avatar">
                     <template>
-                        <t-avatar size="60px" image="https://tdesign.gtimg.com/site/avatar.jpg"/>
+                        <t-avatar size="60px" image="https://mp-c8d80741-4542-43cf-88e7-ecab5d7d5eb7.cdn.bspapp.com/后端图片/于睿昊.jpg"/>
                     </template>
 
                 </div>
@@ -97,7 +97,7 @@
             <div class="BusiCard">
                 <div class="avatar">
                     <template>
-                        <t-avatar size="60px" image="https://tdesign.gtimg.com/site/avatar.jpg"/>
+                        <t-avatar size="60px" image="https://mp-c8d80741-4542-43cf-88e7-ecab5d7d5eb7.cdn.bspapp.com/后端图片/张志栋.jpg"/>
                     </template>
 
                 </div>
@@ -120,7 +120,7 @@
             <div class="BusiCard">
                 <div class="avatar">
                     <template>
-                        <t-avatar size="60px" image="https://tdesign.gtimg.com/site/avatar.jpg"/>
+                        <t-avatar size="60px" image="https://mp-c8d80741-4542-43cf-88e7-ecab5d7d5eb7.cdn.bspapp.com/后端图片/赵雨萱.jpg"/>
                     </template>
 
                 </div>

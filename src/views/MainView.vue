@@ -28,7 +28,7 @@
                 </t-header>
                 <t-layout>
                     <t-aside class="aside" :style="{ width:asideWidth,'height':'620px' }">
-                        <t-menu theme="light" defaultValue="dashboard" :width="['150px', '80px']"
+                        <t-menu theme="light" v-model="nowPage" defaultValue="dashboard" :width="['150px', '80px']"
                                 :collapsed="collapsed">
                             <router-link to="/DashBoard" class="custom-link">
                                 <t-menu-item value="dashboard">
@@ -105,7 +105,6 @@
                             </div>
                         </t-content>
                     </t-layout>
-
                 </t-layout>
             </t-layout>
         </div>
@@ -114,6 +113,7 @@
 
 <script>
 import {Icon} from 'tdesign-icons-vue';
+// import dashBoard from "@/views/DashBoard.vue";
 // import router from "@/router";
 
 export default {
@@ -123,10 +123,10 @@ export default {
         Icon
     },
     props: {},
-
     data() {
         // 这里存放数据
         return {
+            nowPage: "",
             asideWidth: "150px",
             contentWidth: "1208px",
             collapsed: false,
@@ -135,9 +135,28 @@ export default {
     // 计算属性 类似于 data 概念
     computed: {},
     // 监控 data 中的数据变化
-    watch: {},
+    watch: {
+        nowPage(newVal, oldVal) {
+            console.log(newVal, oldVal)
+        }
+    },
     // 方法集合
     methods: {
+        getDefaultPage() {
+            switch (this.$route.path) {
+                case '/DashBoard':
+                    return 'dashboard';
+                case '/produce':
+                    return 'resource';
+                case '/user':
+                    return 'root';
+                case '/order':
+                    return 'control-platform';
+                // Add cases for other routes
+                default:
+                    return 'dashboard'; // Set a default value
+            }
+        },
         changeCollapsed() {
             this.collapsed = !this.collapsed;
             if (this.collapsed) {
@@ -153,6 +172,7 @@ export default {
     },
     // 生命周期 - 挂载完成（可以访问 DOM 元素）
     mounted() {
+        this.nowPage = this.getDefaultPage();
     }
 }
 </script>

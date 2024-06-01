@@ -47,7 +47,7 @@ export default {
 
 <style scoped>
 .breadcrumb {
-    width: 100%;
+    width: 97%;
     background-color: white;
     height: 20px;
     padding: 10px;
