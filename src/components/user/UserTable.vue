@@ -8,13 +8,13 @@
         <!-- footData 可以是多行，均支持固定在底部 -->
         <t-table
                 rowKey="index"
-                :data="data"
+                :data="computeData"
                 :footData="[{}]"
                 :columns="columns"
                 :table-layout="tableLayout"
                 table-content-width='1350px'
                 style="margin-top: 10px"
-                height="600px"
+                height="fix—content"
                 :fixedRows="fixedTopAndBottomRows ? [2, 2] : undefined"
                 :scroll="virtualScroll ? { type: 'virtual' } : undefined"
                 :stripe="stripe"
@@ -23,92 +23,70 @@
         >
             <template #operation="{ row }">
                 <t-link theme="primary" hover="color" @click="rehandleClickOp(row)">
-                    {{ row.status === 0 ? '查看详情' : '再次申请' }}
+                    查看详情
                 </t-link>
             </template>
         </t-table>
     </div>
 </template>
 <script lang="jsx">
-import {ErrorCircleFilledIcon, CheckCircleFilledIcon, CloseCircleFilledIcon} from 'tdesign-icons-vue';
-
-function getData(count) {
-    const initialData = [];
-    for (let i = 0; i < count; i++) {
-        initialData.push({
-            index: i + 1,
-            applicant: ['贾明', '张三', '王芳'][i % 3],
-            status: i % 3,
-            channel: ['电子签署', '纸质签署', '纸质签署'][i % 3],
-            detail: {
-                email: ['w.cezkdudy@lhll.au', 'r.nmgw@peurezgn.sl', 'p.cumx@rampblpa.ru'][i % 3],
-            },
-            matters: ['宣传物料制作费用', 'algolia 服务报销', '相关周边制作费', '激励奖品快递费'][i % 4],
-            time: [2, 3, 1, 4][i % 4],
-            createTime: ['2022-01-01', '2022-02-01', '2022-03-01', '2022-04-01', '2022-05-01'][i % 4],
-        });
-    }
-    return initialData;
-}
-
+// import {ErrorCircleFilledIcon, CheckCircleFilledIcon, CloseCircleFilledIcon} from 'tdesign-icons-vue';
 export default {
     name: "UserTable",
-
+    props: {
+        userData: {
+            type: Array,
+            required: true,
+        }
+    },
     data() {
         return {
             virtualScroll: false,
             fixedTopAndBottomRows: false,
             stripe: false,
             tableLayout: 'fixed',
-            data: getData(14),
+            data: this.userData,
             columns: [
                 {
-                    colKey: 'applicant',
-                    title: '申请人',
-                    width: '100',
-                    foot: '共20条',
+                    colKey: 'user_id',
+                    title: '用户ID',
+                    width: 70,
+                    foot: `共${this.userData.length}条`,
                     fixed: 'left',
                 },
                 {
-                    colKey: 'status',
-                    title: '审批状态',
-                    width: 120,
-                    cell: (h, {row}) => {
-                        const statusNameListMap = {
-                            0: {label: '审批通过', theme: 'success', icon: <CheckCircleFilledIcon/>},
-                            1: {label: '审批失败', theme: 'danger', icon: <CloseCircleFilledIcon/>},
-                            2: {label: '审批过期', theme: 'warning', icon: <ErrorCircleFilledIcon/>},
-                        };
-                        return (
-                            <t-tag shape="round" theme={statusNameListMap[row.status].theme} variant="light-outline">
-                                {statusNameListMap[row.status].icon}
-                                {statusNameListMap[row.status].label}
-                            </t-tag>
-                        );
-                    },
+                    colKey: 'username',
+                    title: '申请人',
+                    width: '100',
+                    fixed: 'left',
                 },
                 {
-                    colKey: 'channel',
-                    title: '签署方式',
+                    colKey: 'phone_number',
+                    title: '手机号',
+                    width: 120,
+                },
+                {
+                    colKey: 'realName',
+                    title: '真是姓名',
                     width: '120',
                     foot: '-',
                 },
                 {
-                    colKey: 'matters',
-                    title: '申请事项',
-                    width: '150',
-                    foot: '-',
-                },
-                {
-                    colKey: 'detail.email',
-                    title: '邮箱地址',
+                    colKey: 'idNumber',
+                    title: '身份证号',
                     width: '180',
                     foot: '-',
                 },
                 {
-                    colKey: 'createTime',
-                    title: '申请日期',
-                    width: '120',
+                    colKey: 'historySearch',
+                    title: '用户喜好',
+                    width: '180',
+                    foot: '-',
+                },
+                {
+                    colKey: 'registration_date',
+                    title: '注册日期',
+                    width: '170',
                     foot: '-',
                 },
                 {
@@ -121,16 +99,42 @@ export default {
             ],
         };
     },
-    watch: {
-        virtualScroll(val) {
-            this.data = val ? getData(2000) : getData(15);
-        },
+    computed: {
+        // 生成处理了空属性的列配置
+        computeData() {
+            return this.userData.map(item => {
+                const newItem = {};
+                for (const key in item) {
+                    if (Object.hasOwnProperty.call(item, key)) {
+                        newItem[key] = item[key] || "用户暂未填写";
+                    }
+                    if (key === "registration_date") {
+                        newItem[key] = this.formatDate(item[key])
+                    }
+                }
+                return newItem;
+            });
+        }
     },
+    watch: {},
     methods: {
         rehandleClickOp(context) {
             console.log(context);
         },
+        formatDate(dateTimeString) {
+            const date = new Date(dateTimeString);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hour = String(date.getHours()).padStart(2, '0');
+            const min = String(date.getMinutes()).padStart(2, '0');
+            return `${year}年${month}月${day}日${hour}时${min}分`;
+        },
     },
+    mounted() {
+        console.log()
+        console.log(this.userData)
+    }
 };
 </script>
 

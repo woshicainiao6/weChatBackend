@@ -5,4 +5,9 @@ export function test() {
         method: 'get',
         url: '/Insu/insurances',
     })
+}export function getAllUser() {
+    return request({
+        method: 'get',
+        url: '/user/getAllUser',
+    })
 }

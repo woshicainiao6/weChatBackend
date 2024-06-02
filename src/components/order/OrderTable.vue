@@ -9,13 +9,13 @@
         <!-- footData 可以是多行，均支持固定在底部 -->
         <t-table
                 rowKey="index"
-                :data="data"
+                :data="computeData"
                 :footData="[{}]"
                 :columns="columns"
                 :table-layout="tableLayout"
                 table-content-width='1350px'
                 style="margin-top: 10px"
-                height="550px"
+                height="500px"
                 :fixedRows="fixedTopAndBottomRows ? [2, 2] : undefined"
                 :scroll="virtualScroll ? { type: 'virtual' } : undefined"
                 :stripe="stripe"
@@ -24,90 +24,62 @@
         >
             <template #operation="{ row }">
                 <t-link theme="primary" hover="color" @click="rehandleClickOp(row)">
-                    {{ row.status === 0 ? '查看详情' : '再次申请' }}
+                    查看详情
                 </t-link>
             </template>
         </t-table>
     </div>
 </template>
 <script lang="jsx">
-import {ErrorCircleFilledIcon, CheckCircleFilledIcon, CloseCircleFilledIcon} from 'tdesign-icons-vue';
-
-function getData(count) {
-    const initialData = [];
-    for (let i = 0; i < count; i++) {
-        initialData.push({
-            index: i + 1,
-            applicant: ['贾明', '张三', '王芳'][i % 3],
-            status: i % 3,
-            channel: ['电子签署', '纸质签署', '纸质签署'][i % 3],
-            detail: {
-                email: ['w.cezkdudy@lhll.au', 'r.nmgw@peurezgn.sl', 'p.cumx@rampblpa.ru'][i % 3],
-            },
-            matters: ['宣传物料制作费用', 'algolia 服务报销', '相关周边制作费', '激励奖品快递费'][i % 4],
-            time: [2, 3, 1, 4][i % 4],
-            createTime: ['2022-01-01', '2022-02-01', '2022-03-01', '2022-04-01', '2022-05-01'][i % 4],
-        });
-    }
-    return initialData;
-}
-
 export default {
     name: "OrderTable",
+    props: {
+        allOrderData: {
+            type: Array,
+            required: true,
+        }
+    },
     data() {
         return {
             virtualScroll: false,
             fixedTopAndBottomRows: false,
             stripe: false,
             tableLayout: 'fixed',
-            data: getData(14),
-            columns: [
+            data: this.allOrderData,
+            length:this.allOrderData.length,
+            columns: [    {
+                colKey: 'userId',
+                title: '购买人编号',
+                width: '100',
+                foot: `共${length}条`,
+                fixed: 'left',
+            },
                 {
-                    colKey: 'applicant',
-                    title: '申请人',
+                    colKey: 'orderId',
+                    title: '订单编号',
+                    width: 140,
+                },
+                {
+                    colKey: 'insuranceId',
+                    title: '商品编号',
                     width: '100',
-                    foot: '共20条',
-                    fixed: 'left',
-                },
-                {
-                    colKey: 'status',
-                    title: '审批状态',
-                    width: 120,
-                    cell: (h, {row}) => {
-                        const statusNameListMap = {
-                            0: {label: '审批通过', theme: 'success', icon: <CheckCircleFilledIcon/>},
-                            1: {label: '审批失败', theme: 'danger', icon: <CloseCircleFilledIcon/>},
-                            2: {label: '审批过期', theme: 'warning', icon: <ErrorCircleFilledIcon/>},
-                        };
-                        return (
-                            <t-tag shape="round" theme={statusNameListMap[row.status].theme} variant="light-outline">
-                                {statusNameListMap[row.status].icon}
-                                {statusNameListMap[row.status].label}
-                            </t-tag>
-                        );
-                    },
-                },
-                {
-                    colKey: 'channel',
-                    title: '签署方式',
-                    width: '120',
                     foot: '-',
                 },
                 {
-                    colKey: 'matters',
-                    title: '申请事项',
+                    colKey: 'orderDate',
+                    title: '订单时间',
                     width: '150',
                     foot: '-',
                 },
                 {
-                    colKey: 'detail.email',
-                    title: '邮箱地址',
-                    width: '180',
+                    colKey: 'orderStatus',
+                    title: '订单状态',
+                    width: '100',
                     foot: '-',
                 },
                 {
-                    colKey: 'createTime',
-                    title: '申请日期',
+                    colKey: 'applicantName',
+                    title: '购买人姓名',
                     width: '120',
                     foot: '-',
                 },
@@ -117,20 +89,44 @@ export default {
                     width: '150',
                     foot: '-',
                     fixed: 'right',
-                },
-            ],
+                },],
         };
     },
-    watch: {
-        virtualScroll(val) {
-            this.data = val ? getData(2000) : getData(15);
-        },
+    watch: {},
+    computed: {
+        // 生成处理了空属性的列配置
+        computeData() {
+            return this.allOrderData.map(item => {
+                const newItem = {};
+                for (const key in item) {
+                    if (Object.hasOwnProperty.call(item, key)) {
+                        newItem[key] = item[key] || "用户暂未填写";
+                    }
+                    if (key === "orderDate") {
+                        newItem[key] = this.formatDate(item[key])
+                    }
+                }
+                return newItem;
+            });
+        }
     },
     methods: {
+        formatDate(dateTimeString) {
+            const date = new Date(dateTimeString);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hour = String(date.getHours()).padStart(2, '0');
+            const min = String(date.getMinutes()).padStart(2, '0');
+            return `${year}年${month}月${day}日${hour}时${min}分`;
+        },
         rehandleClickOp(context) {
             console.log(context);
         },
     },
+    mounted() {
+
+    }
 };
 </script>
 

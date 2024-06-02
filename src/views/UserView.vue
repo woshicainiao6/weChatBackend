@@ -3,7 +3,7 @@
         <BreadCrumb :page="breadcrumbData"></BreadCrumb>
         <operatView @search_event="searchEvent"></operatView>
         <div class="userTable">
-            <UserTable></UserTable>
+            <UserTable :userData="userData"></UserTable>
         </div>
     </div>
 </template>
@@ -12,7 +12,7 @@
 import UserTable from "@/components/user/UserTable.vue";
 import BreadCrumb from "@/components/Breadcrumb/BreadCrumb.vue";
 import OperatView from "@/components/UtileView/OperatView.vue";
-import {test} from "@/api/user"
+import {getAllUser} from "@/api/user"
 
 export default {
     // import 引入的组件需要注入到对象中才能使用
@@ -28,6 +28,7 @@ export default {
                 url: "/user"
             }],
             searchWord: "",
+            userData:[],
 
         }
     },
@@ -37,9 +38,10 @@ export default {
     watch: {},
     // 方法集合
     methods: {
-        testFn() {
-            test().then(res => {
-                console.log(res.data)
+        getAllUserFn(){
+            getAllUser().then(res=>{
+                console.log(res.data.data)
+                this.userData=res.data.data
             })
         },
         searchEvent(val) {
@@ -52,7 +54,7 @@ export default {
     },
     // 生命周期 - 挂载完成（可以访问 DOM 元素）
     mounted() {
-        this.testFn()
+        this.getAllUserFn()
     }
 }
 </script>

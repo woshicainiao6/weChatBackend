@@ -5,8 +5,8 @@
         <div class="produceContainer">
             <t-list :split="true" size="large" style="width: 92%">
                 <t-list-item v-for="(item,index) in produceData" :key="index">
-                    <t-list-item-meta :image="imageUrl" title="商品标题"
-                                      description="列表内容列表内容"></t-list-item-meta>
+                    <t-list-item-meta :image="item.thumb" :title=item.content
+                                      :description=item.description></t-list-item-meta>
                     <template #action>
           <span style="margin-right: 40px">
             <t-link theme="primary" hover="color" style="margin-left: 16px">修改信息</t-link>
@@ -24,6 +24,7 @@
 <script>
 import operatView from "@/components/UtileView/OperatView.vue";
 import BreadCrumb from "@/components/Breadcrumb/BreadCrumb.vue";
+import {getAllProduce} from "@/api/produce"
 
 export default {
     // import 引入的组件需要注入到对象中才能使用
@@ -53,11 +54,16 @@ export default {
     methods: {
         searchEvent(val) {
             this.searchWord = val
-            console.log(val)
+        },
+        getAllData(){
+            getAllProduce().then(res=>{
+                this.produceData=res.data.data;
+            })
         }
     },
     // 生命周期 - 创建完成（可以访问当前this 实例）
     created() {
+        this.getAllData()
     },
     // 生命周期 - 挂载完成（可以访问 DOM 元素）
     mounted() {
