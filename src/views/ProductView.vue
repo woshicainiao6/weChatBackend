@@ -4,14 +4,20 @@
         <operatView @search_event="searchEvent"></operatView>
         <div class="produceContainer">
             <t-list :split="true" size="large" style="width: 92%">
-                <t-list-item v-for="(item,index) in produceData" :key="index">
-                    <t-list-item-meta :image="item.thumb" :title=item.content
-                                      :description=item.description></t-list-item-meta>
+                <t-list-item v-for="(item, index) in searchData" :key="index">
+                    <t-list-item-meta :image="item.thumb" :title="item.content"
+                                      :description="item.description"></t-list-item-meta>
                     <template #action>
           <span style="margin-right: 40px">
-            <t-link theme="primary" hover="color" style="margin-left: 16px">修改信息</t-link>
-            <t-link theme="primary" hover="color" style="margin-left: 16px">查看详情信息</t-link>
-            <t-link theme="primary" hover="color" style="margin-left: 16px">删除商品</t-link>
+            <router-link :to="{ name: 'modifyProduce', params: { id: item.id } }" custom>
+              <t-link theme="primary" hover="color" style="margin-left: 16px">修改信息</t-link>
+            </router-link>
+            <router-link :to="{ name: 'viewDetails', params: { id: item.id } }" custom>
+              <t-link theme="primary" hover="color" style="margin-left: 16px">查看详情信息</t-link>
+            </router-link>
+            <router-link :to="{ name: 'deleteProduct', params: { id: item.id } }" custom>
+              <t-link theme="primary" hover="color" style="margin-left: 16px">删除商品</t-link>
+            </router-link>
           </span>
                     </template>
                 </t-list-item>
@@ -39,25 +45,26 @@ export default {
             }],
             searchWord: "",
             imageUrl: 'https://tdesign.gtimg.com/site/avatar.jpg',
-            produceData:[{
-                name:"商品1",
-                desc:"商品简介",
-                img:"商品内容"
-            }],
+            produceData: [],
         }
     },
     // 计算属性 类似于 data 概念
-    computed: {},
+    computed: {
+        searchData() {
+            return this.produceData.filter(item => item.title.includes(this.searchWord) || item.description.includes(this.searchWord))
+        }
+    },
     // 监控 data 中的数据变化
     watch: {},
     // 方法集合
     methods: {
         searchEvent(val) {
+
             this.searchWord = val
         },
-        getAllData(){
-            getAllProduce().then(res=>{
-                this.produceData=res.data.data;
+        getAllData() {
+            getAllProduce().then(res => {
+                this.produceData = res.data.data;
             })
         }
     },

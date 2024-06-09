@@ -12,7 +12,8 @@
 import UserTable from "@/components/user/UserTable.vue";
 import BreadCrumb from "@/components/Breadcrumb/BreadCrumb.vue";
 import OperatView from "@/components/UtileView/OperatView.vue";
-import {getAllUser} from "@/api/user"
+import {getAllUser} from "@/api/user";
+
 
 export default {
     // import 引入的组件需要注入到对象中才能使用
@@ -40,13 +41,13 @@ export default {
     methods: {
         getAllUserFn(){
             getAllUser().then(res=>{
-                console.log(res.data.data)
+                // console.log(res.data.data)
                 this.userData=res.data.data
             })
         },
         searchEvent(val) {
             this.searchWord = val
-            console.log(val)
+            // console.log(val)
         }
     },
     // 生命周期 - 创建完成（可以访问当前this 实例）

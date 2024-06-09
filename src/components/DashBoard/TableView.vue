@@ -1,88 +1,101 @@
 <template>
     <div class="tdesign-demo__table">
-        <t-table :data="data" :columns="columns" rowKey="property" verticalAlign="top" lazyLoad>
-            <!-- 插槽方式 自定义单元格：cell 的值为插槽名称，参数有：{col, colIndex, row, rowIndex}  -->
-            <template #type-slot-name="{ col, row }"> {{ row[col.colKey] }}</template>
-
-            <!-- 插槽方式 自定义单元格， colKey 的值默认为插槽名称  -->
-            <template #status="{ row }">
-                <t-tag shape="round" :theme="statusNameListMap[row.status].theme" variant="light-outline">
-                    <check-circle-filled-icon v-if="row.status === 0"/>
-                    <close-circle-filled-icon v-else-if="row.status === 1"/>
-                    <error-circle-filled-icon v-else/>
-                    {{ statusNameListMap[row.status].label }}
-                </t-tag>
-            </template>
-        </t-table>
+        <div class="table">
+            <t-table :data="computeData" :columns="columns" max-height="400px" height="300px" rowKey="property"
+                     verticalAlign="top" lazyLoad>
+                <!-- 插槽方式 自定义单元格：cell 的值为插槽名称，参数有：{col, colIndex, row, rowIndex}  -->
+                <template #type-slot-name="{ col, row }"> {{ row[col.colKey] }}</template>
+            </t-table>
+        </div>
     </div>
 </template>
 <script lang="jsx">
 import {ErrorCircleFilledIcon, CheckCircleFilledIcon, CloseCircleFilledIcon} from 'tdesign-icons-vue';
-
-const initialData = [];
-
-for (let i = 0; i < 5; i++) {
-    initialData.push({
-        index: i + 1,
-        applicant: ['贾明', '张三', '王芳'][i % 3],
-        status: i % 3,
-        channel: ['电子签署', '纸质签署', '纸质签署'][i % 3],
-        email: ['w.cezkdudy@lhll.au', 'r.nmgw@peurezgn.sl', 'p.cumx@rampblpa.ru'][i % 3],
-        matters: ['宣传物料制作费用', 'algolia 服务报销', '相关周边制作费', '激励奖品快递费'][i % 4],
-        time: [2, 3, 1, 4][i % 4],
-        createTime: ['2022-01-01', '2022-02-01', '2022-03-01', '2022-04-01', '2022-05-01'][i % 4],
-    });
-}
-
+import formatDate from "@/util/formDtae"
 export default {
-    name:"TableView",
+    name: "TableView",
     components: {
-        ErrorCircleFilledIcon,
-        CheckCircleFilledIcon,
-        CloseCircleFilledIcon,
+        // ErrorCircleFilledIcon,
+        // CheckCircleFilledIcon,
+        // CloseCircleFilledIcon,
+    },
+    props: {
+        OrderData: {
+            type: Array,
+            required: true,
+        }
     },
     data() {
         return {
-            data: initialData,
-            statusNameListMap: {
-                0: {label: '审批通过', theme: 'success', icon: <CheckCircleFilledIcon/>},
-                1: {label: '审批失败', theme: 'danger', icon: <CloseCircleFilledIcon/>},
-                2: {label: '审批过期', theme: 'warning', icon: <ErrorCircleFilledIcon/>},
-            },
+            data: this.OrderData,
             columns: [
                 {
-                    colKey: 'applicant',
+                    colKey: 'applicantName',
                     title: '申请人',
                     // type-slot-name 会被用于自定义单元格的插槽名称
                     cell: 'type-slot-name',
-                    width: 120,
+                    width: 80,
                 },
                 {
-                    title: '审批状态',
+                    title: '支付状态',
                     // 没有 cell 的情况下， platform 会被用作自定义单元格的插槽名称
-                    colKey: 'status',
+                    colKey: 'orderStatus',
                     width: 120,
-                },
-                {
-                    colKey: 'matters',
-                    title: '申请事项',
-                    // 使用 cell 方法自定义单元格：
-                    cell: (h, {col, row}) => <div>{row[col.colKey]}</div>,
-                },
-                {
-                    title: '邮箱地址',
-                    colKey: 'email',
-                    // render 即可渲染表头，也可以渲染单元格。但 cell 只能渲染单元格，title 只能渲染表头
-                    render(h, context) {
-                        const {type, row, col} = context;
-                        if (type === 'title') return '邮箱地址';
-                        return <div>{row[col.colKey]}</div>;
+                    cell: (h, {row}) => {
+                        const statusNameListMap = {
+                            '已支付': {label: '支付成功', theme: 'success', icon: <CheckCircleFilledIcon/>},
+                            '已取消': {label: '支付取消', theme: 'danger', icon: <CloseCircleFilledIcon/>},
+                            '已超时': {label: '支付超时', theme: 'warning', icon: <ErrorCircleFilledIcon/>},
+                        };
+                        return (
+                            <t-tag shape="round" theme={statusNameListMap[row['orderStatus']].theme}
+                                   variant="light-outline">
+                                {statusNameListMap[row['orderStatus']].icon}
+                                {statusNameListMap[row['orderStatus']].label}
+                            </t-tag>
+                        );
                     },
                 },
-                {colKey: 'createTime', title: '申请时间'},
+                {
+                    colKey: 'orderId',
+                    title: '订单号',
+                    // 使用 cell 方法自定义单元格：
+                    cell: (h, {col, row}) => <div>{row[col.colKey]}</div>,
+                    width: 200
+                },
+                {
+                    title: '身份证号',
+                    colKey: 'applicantIdNumber',
+                    // render 即可渲染表头，也可以渲染单元格。但 cell 只能渲染单元格，title 只能渲染表头
+                },
+                {
+                    colKey: 'orderDate', title: '购买时间',
+                    width: 210
+                },
             ],
         };
     },
+    methods: {
+
+    },
+    computed: {
+        computeData() {
+            return this.OrderData.map(item => {
+                const newItem = {};
+                for (const key in item) {
+                    if (Object.hasOwnProperty.call(item, key)) {
+                        newItem[key] = item[key] || "暂无信息";
+                    }
+                    if (key === "orderDate") {
+                        newItem[key] = formatDate(item[key])
+                    }
+                }
+                return newItem;
+            });
+        }
+    },
+    mounted() {
+    }
 };
 </script>
 
@@ -90,5 +103,9 @@ export default {
 .link {
     color: #0052d9;
     text-decoration: none;
+}
+
+.table {
+    height: 100px;
 }
 </style>

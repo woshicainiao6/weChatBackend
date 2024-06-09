@@ -4,9 +4,6 @@
 
         <div class="buttons">
         </div>
-        <!-- 如果希望表格列宽自适应，设置 `table-layout: auto` 即可。需同时设置 table-content-width -->
-        <!-- fixedRows: [2, 2] 表示冻结表格的头两行和尾两行 -->
-        <!-- footData 可以是多行，均支持固定在底部 -->
         <t-table
                 rowKey="index"
                 :data="computeData"
@@ -31,10 +28,14 @@
     </div>
 </template>
 <script lang="jsx">
+
 export default {
     name: "OrderTable",
     props: {
         allOrderData: {
+            type: Array,
+            required: true,
+        }, insuranceData: {
             type: Array,
             required: true,
         }
@@ -46,8 +47,8 @@ export default {
             stripe: false,
             tableLayout: 'fixed',
             data: this.allOrderData,
-            length:this.allOrderData.length,
-            columns: [    {
+            length: this.allOrderData.length,
+            columns: [{
                 colKey: 'userId',
                 title: '购买人编号',
                 width: '100',
@@ -61,7 +62,7 @@ export default {
                 },
                 {
                     colKey: 'insuranceId',
-                    title: '商品编号',
+                    title: '商品名称',
                     width: '100',
                     foot: '-',
                 },
@@ -75,6 +76,20 @@ export default {
                     colKey: 'orderStatus',
                     title: '订单状态',
                     width: '100',
+                    cell: (h, {row}) => {
+                        const statusNameListMap = {
+                            '已支付': {label: '支付成功', theme: 'success', icon: <CheckCircleFilledIcon/>},
+                            '已取消': {label: '支付取消', theme: 'danger', icon: <CloseCircleFilledIcon/>},
+                            '已超时': {label: '支付超时', theme: 'warning', icon: <ErrorCircleFilledIcon/>},
+                        };
+                        return (
+                            <t-tag shape="round" theme={statusNameListMap[row['orderStatus']].theme}
+                                   variant="light-outline">
+                                {statusNameListMap[row['orderStatus']].icon}
+                                {statusNameListMap[row['orderStatus']].label}
+                            </t-tag>
+                        );
+                    },
                     foot: '-',
                 },
                 {
@@ -105,6 +120,9 @@ export default {
                     if (key === "orderDate") {
                         newItem[key] = this.formatDate(item[key])
                     }
+                    if (key === 'insuranceId') {
+                        newItem[key] =this.getInsuranceTitle(newItem[key])
+                    }
                 }
                 return newItem;
             });
@@ -123,6 +141,9 @@ export default {
         rehandleClickOp(context) {
             console.log(context);
         },
+        getInsuranceTitle(id) {
+            return this.insuranceData.filter(item=>item.id===id)[0]['title']
+        }
     },
     mounted() {
 

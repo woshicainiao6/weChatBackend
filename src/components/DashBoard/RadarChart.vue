@@ -168,6 +168,6 @@ export default {
 <style scoped>
 #radarChart{
     width: 510px;
-    height: 270px;
+    height: 300px;
 }
 </style>

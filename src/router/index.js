@@ -6,6 +6,9 @@ import DashBoard from "@/views/DashBoard.vue";
 import OrderView from "@/views/OrderView.vue";
 import UserView from "@/views/UserView.vue";
 import ProductView from "@/views/ProductView.vue";
+import ModifyProduce from "@/components/produce/ModifyProduce.vue";
+import ViewDetails from "@/components/produce/ViewDetails.vue";
+import DeleteProduct from "@/components/produce/DeleteProduct.vue";
 
 Vue.use(VueRouter)
 
@@ -22,7 +25,15 @@ const routes = [{
 }, {
     path: "/order", component: OrderView
 }, {
-    path: "/produce", component: ProductView
+    path: '/produce', component: ProductView
+}, {
+    path: '/modifyProduce/:id', name: 'modifyProduce', component: ModifyProduce
+}, {
+    path: '/viewDetails/:id', name: 'viewDetails', component: ViewDetails
+}, {
+    path: '/deleteProduct/:id', name: 'deleteProduct', component: DeleteProduct
+}, {
+    path: "/modifyProduce", component: UserView
 }, {
     path: "/user", component: UserView
 }

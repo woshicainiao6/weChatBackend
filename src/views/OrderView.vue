@@ -4,7 +4,7 @@
         <operatView @search_event="searchEvent"></operatView>
 
         <div class="OrderTabel">
-            <OrderTable :allOrderData="allOrderData"></OrderTable>
+            <OrderTable v-if="dataReady" :allOrderData="allOrderData" :insuranceData="insuranceData"></OrderTable>
         </div>
     </div>
 </template>
@@ -13,6 +13,8 @@
 import OrderTable from "@/components/order/OrderTable.vue";
 import BreadCrumb from "@/components/Breadcrumb/BreadCrumb.vue";
 import {getAllOrder} from "@/api/order"
+import {getAllProduce} from "@/api/produce"
+
 import operatView from "@/components/UtileView/OperatView.vue";
 
 export default {
@@ -27,7 +29,9 @@ export default {
                 url: "/order"
             }],
             searchWord: "",
-            allOrderData: []
+            allOrderData: [],
+            insuranceData:[],
+            dataReady:false
         }
     },
     // 计算属性 类似于 data 概念
@@ -36,14 +40,17 @@ export default {
     watch: {},
     // 方法集合
     methods: {
-        getAllOrderData() {
-            getAllOrder().then(res => {
+        async getAllOrderData() {
+            await getAllOrder().then(res => {
                 this.allOrderData = res.data.data
             })
+            await getAllProduce().then(res=>{
+                this.insuranceData=res.data.data
+            })
+            this.dataReady=true
         },
         searchEvent(val) {
             this.searchWord = val
-            console.log(val)
         }
     },
     // 生命周期 - 创建完成（可以访问当前this 实例）

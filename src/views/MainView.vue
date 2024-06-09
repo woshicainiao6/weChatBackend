@@ -99,7 +99,7 @@
                         </t-menu>
                     </t-aside>
                     <t-layout style="padding: 0;margin: 0">
-                        <t-content>
+                        <t-content >
                             <div class="content">
                                 <router-view></router-view>
                             </div>
@@ -128,7 +128,6 @@ export default {
         return {
             nowPage: "",
             asideWidth: "150px",
-            contentWidth: "1208px",
             collapsed: false,
         }
     },
@@ -184,7 +183,7 @@ export default {
 
 .content {
     position: fixed;
-    max-height: 1090px;
+    max-height: 1120px;
     overflow: auto;
     margin-left: 0;
     width: 100%;
