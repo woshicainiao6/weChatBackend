@@ -1,9 +1,9 @@
 <template>
     <div>
         <BreadCrumb :page="breadcrumbData"></BreadCrumb>
-        <operatView @search_event="searchEvent"></operatView>
+        <operatView @search_event="searchEvent" :operaEvent="operaEvent"></operatView>
         <div class="userTable">
-            <UserTable :userData="userData"></UserTable>
+            <UserTable :userData="searchData"></UserTable>
         </div>
     </div>
 </template>
@@ -29,20 +29,23 @@ export default {
                 url: "/user"
             }],
             searchWord: "",
-            userData:[],
-
+            userData: [],
+            operaEvent:"addUser"
         }
     },
     // 计算属性 类似于 data 概念
-    computed: {},
+    computed: {
+        searchData() {
+            return this.userData.filter(item => item.username.includes(this.searchWord));
+        }
+    },
     // 监控 data 中的数据变化
     watch: {},
     // 方法集合
     methods: {
-        getAllUserFn(){
-            getAllUser().then(res=>{
-                // console.log(res.data.data)
-                this.userData=res.data.data
+        getAllUserFn() {
+            getAllUser().then(res => {
+                this.userData = res.data.data
             })
         },
         searchEvent(val) {

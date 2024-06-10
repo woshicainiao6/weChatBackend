@@ -9,6 +9,8 @@ import ProductView from "@/views/ProductView.vue";
 import ModifyProduce from "@/components/produce/ModifyProduce.vue";
 import ViewDetails from "@/components/produce/ViewDetails.vue";
 import addProduce from "@/components/produce/addProduce.vue";
+import ViewUser from "@/components/user/ViewUser.vue";
+import AddUser from "@/components/user/addUser.vue";
 Vue.use(VueRouter)
 
 const routes = [{
@@ -35,7 +37,12 @@ const routes = [{
     path: "/modifyProduce", component: UserView
 }, {
     path: "/user", component: UserView
+},{
+    path: '/ViewUser/:id', name: 'ViewUser', component: ViewUser
+},{
+    path: '/addUser', name: 'AddUser', component: AddUser
 }
+
 
 ]
 const originalPush = VueRouter.prototype.push

@@ -49,8 +49,13 @@ export default {
             this.$emit("search_event", this.searchWord)
         },
         addEvent(){
-            console.log(this.operaEvent)
-            this.$router.push("/addProduce")
+            if (this.operaEvent==="addProduce"){
+                console.log(this.operaEvent)
+                this.$router.push("/addProduce")
+            }
+            else if(this.operaEvent==="addUser"){
+                this.$router.push("/addUser")
+            }
         }
     },
     // 生命周期 - 创建完成（可以访问当前this 实例）

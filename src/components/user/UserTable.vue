@@ -119,7 +119,7 @@ export default {
     watch: {},
     methods: {
         rehandleClickOp(context) {
-            console.log(context);
+            this.$router.push(`/ViewUser/${context['user_id']}`)
         },
         formatDate(dateTimeString) {
             const date = new Date(dateTimeString);

@@ -11,3 +11,15 @@ export function getAllUser() {
         method: 'get', url: '/user/getAllUser',
     })
 }
+
+export function getUserById(id) {
+    return request({
+        method: 'get', url: `/user/info/${id}`,
+    })
+}
+
+export function addUser(user) {
+    return request({
+        method: 'post', url: `/user/addUser`, data: user
+    })
+}
