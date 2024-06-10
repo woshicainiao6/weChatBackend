@@ -10,7 +10,7 @@
                 rowKey="index"
                 :data="computeData"
                 :footData="[{}]"
-                :columns="columns"
+                :columns="updatedColumns"
                 :table-layout="tableLayout"
                 table-content-width='1350px'
                 style="margin-top: 10px"
@@ -46,12 +46,13 @@ export default {
             stripe: false,
             tableLayout: 'fixed',
             data: this.userData,
+            length: 0,
             columns: [
                 {
                     colKey: 'user_id',
                     title: '用户ID',
                     width: 70,
-                    foot: `共${this.userData.length}条`,
+                    foot: `共0条`,
                     fixed: 'left',
                 },
                 {
@@ -100,7 +101,20 @@ export default {
         };
     },
     computed: {
-        // 生成处理了空属性的列配置
+        userCount() {
+            return this.userData.length;
+        },
+        updatedColumns() {
+            return this.columns.map(column => {
+                if (column.colKey === 'user_id') {
+                    return {
+                        ...column,
+                        foot: `共${this.userCount}条`
+                    };
+                }
+                return column;
+            });
+        },
         computeData() {
             return this.userData.map(item => {
                 const newItem = {};
@@ -134,6 +148,9 @@ export default {
     mounted() {
         console.log()
         console.log(this.userData)
+    },
+    created() {
+        this.length = this.userData.length
     }
 };
 </script>

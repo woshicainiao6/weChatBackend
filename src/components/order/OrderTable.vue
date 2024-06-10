@@ -8,7 +8,7 @@
                 rowKey="index"
                 :data="computeData"
                 :footData="[{}]"
-                :columns="columns"
+                :columns="updatedColumns"
                 :table-layout="tableLayout"
                 table-content-width='1350px'
                 style="margin-top: 10px"
@@ -52,7 +52,7 @@ export default {
                 colKey: 'userId',
                 title: '购买人编号',
                 width: '100',
-                foot: `共${length}条`,
+                foot: `共0条`,
                 fixed: 'left',
             },
                 {
@@ -81,6 +81,8 @@ export default {
                             '已支付': {label: '支付成功', theme: 'success', icon: <CheckCircleFilledIcon/>},
                             '已取消': {label: '支付取消', theme: 'danger', icon: <CloseCircleFilledIcon/>},
                             '已超时': {label: '支付超时', theme: 'warning', icon: <ErrorCircleFilledIcon/>},
+                            '未支付': {label: '支付失败', theme: 'danger', icon: <ErrorCircleFilledIcon/>},
+
                         };
                         return (
                             <t-tag shape="round" theme={statusNameListMap[row['orderStatus']].theme}
@@ -110,6 +112,20 @@ export default {
     watch: {},
     computed: {
         // 生成处理了空属性的列配置
+        orderCount() {
+            return this.allOrderData.length;
+        },
+        updatedColumns() {
+            return this.columns.map(column => {
+                if (column.colKey === 'userId') {
+                    return {
+                        ...column,
+                        foot: `共${this.orderCount}条`
+                    };
+                }
+                return column;
+            });
+        },
         computeData() {
             return this.allOrderData.map(item => {
                 const newItem = {};
@@ -139,7 +155,8 @@ export default {
             return `${year}年${month}月${day}日${hour}时${min}分`;
         },
         rehandleClickOp(context) {
-            console.log(context);
+            console.log(context)
+            this.$router.push(`/ViewOrder/${context['orderId']}`)
         },
         getInsuranceTitle(id) {
             return this.insuranceData.filter(item=>item.id===id)[0]['title']

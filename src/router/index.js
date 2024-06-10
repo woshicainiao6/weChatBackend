@@ -11,6 +11,9 @@ import ViewDetails from "@/components/produce/ViewDetails.vue";
 import addProduce from "@/components/produce/addProduce.vue";
 import ViewUser from "@/components/user/ViewUser.vue";
 import AddUser from "@/components/user/addUser.vue";
+import AddOrder from "@/components/order/addOrder.vue";
+import ViewOrder from "@/components/order/ViewOrder.vue";
+
 Vue.use(VueRouter)
 
 const routes = [{
@@ -37,10 +40,14 @@ const routes = [{
     path: "/modifyProduce", component: UserView
 }, {
     path: "/user", component: UserView
-},{
+}, {
     path: '/ViewUser/:id', name: 'ViewUser', component: ViewUser
-},{
+}, {
     path: '/addUser', name: 'AddUser', component: AddUser
+}, {
+    path: '/ViewOrder/:id', name: 'ViewOrder', component: ViewOrder
+}, {
+    path: '/addOrder', name: 'AddOrder', component: AddOrder
 }
 
 

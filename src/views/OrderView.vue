@@ -1,7 +1,7 @@
 <template>
     <div>
         <BreadCrumb :page="breadcrumbData"></BreadCrumb>
-        <operatView @search_event="searchEvent"></operatView>
+        <operatView @search_event="searchEvent" :operaEvent="operaEvent"></operatView>
 
         <div class="OrderTabel">
             <OrderTable v-if="dataReady" :allOrderData="allOrderData" :insuranceData="insuranceData"></OrderTable>
@@ -31,7 +31,8 @@ export default {
             searchWord: "",
             allOrderData: [],
             insuranceData:[],
-            dataReady:false
+            dataReady:false,
+            operaEvent:"addOrder"
         }
     },
     // 计算属性 类似于 data 概念

@@ -55,6 +55,8 @@ export default {
             }
             else if(this.operaEvent==="addUser"){
                 this.$router.push("/addUser")
+            }      else if(this.operaEvent==="addOrder"){
+                this.$router.push("/addOrder")
             }
         }
     },
