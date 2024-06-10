@@ -19,3 +19,17 @@ export function modifyInsurance(insurance) {
         data: insurance
     });
 }
+export function addInsurance(insurance) {
+    return request({
+        method: "post",
+        url: "/Insu/addProduce",
+        data: insurance
+    });
+}
+export function deleteInsurance(id) {
+    return request({
+        method: "get",
+        url: "/Insu/deleteInsurance",
+        params: {id}
+    });
+}

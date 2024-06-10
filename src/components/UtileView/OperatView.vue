@@ -10,7 +10,7 @@
                 </t-input>
             </div>
             <div class="addItem">
-                <t-button theme="primary">
+                <t-button theme="primary" @click="addEvent()">
                     <add-icon slot="icon"/>
                     新增
                 </t-button>
@@ -27,6 +27,10 @@ export default {
     name: "OperatView",
     components: {SearchIcon, AddIcon},
     props: {
+        operaEvent:{
+            type:String,
+            required:true,
+        }
     },
     data() {
         // 这里存放数据
@@ -38,12 +42,15 @@ export default {
     computed: {},
     // 监控 data 中的数据变化
     watch: {
-
     },
     // 方法集合
     methods: {
         search() {
             this.$emit("search_event", this.searchWord)
+        },
+        addEvent(){
+            console.log(this.operaEvent)
+            this.$router.push("/addProduce")
         }
     },
     // 生命周期 - 创建完成（可以访问当前this 实例）

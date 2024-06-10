@@ -1,9 +1,9 @@
 <template>
     <div>
         <BreadCrumb :page="breadcrumbData"></BreadCrumb>
-        <operatView @search_event="searchEvent"></operatView>
+        <operatView @search_event="searchEvent" :operaEvent="operaEvent"></operatView>
         <div class="produceContainer">
-            <t-list :split="true" size="large" style="width: 92%">
+            <t-list :split="true" size="large" style="width: 92%;">
                 <t-list-item v-for="(item, index) in searchData" :key="index">
                     <t-list-item-meta :image="item.thumb" :title="item.content"
                                       :description="item.description"></t-list-item-meta>
@@ -15,9 +15,8 @@
             <router-link :to="{ name: 'viewDetails', params: { id: item.id } }" custom>
               <t-link theme="primary" hover="color" style="margin-left: 16px">查看详情信息</t-link>
             </router-link>
-            <router-link :to="{ name: 'deleteProduct', params: { id: item.id } }" custom>
-              <t-link theme="primary" hover="color" style="margin-left: 16px">删除商品</t-link>
-            </router-link>
+              <t-link theme="primary" hover="color" style="margin-left: 16px"
+                      @click="deleteInsuranceFn(item.id)">删除商品</t-link>
           </span>
                     </template>
                 </t-list-item>
@@ -30,7 +29,7 @@
 <script>
 import operatView from "@/components/UtileView/OperatView.vue";
 import BreadCrumb from "@/components/Breadcrumb/BreadCrumb.vue";
-import {getAllProduce} from "@/api/produce"
+import {getAllProduce, deleteInsurance} from "@/api/produce"
 
 export default {
     // import 引入的组件需要注入到对象中才能使用
@@ -46,12 +45,13 @@ export default {
             searchWord: "",
             imageUrl: 'https://tdesign.gtimg.com/site/avatar.jpg',
             produceData: [],
+            operaEvent: "addProduce"
         }
     },
     // 计算属性 类似于 data 概念
     computed: {
         searchData() {
-            return this.produceData.filter(item => item.title.includes(this.searchWord) || item.description.includes(this.searchWord))
+            return this.produceData.filter(item => item.title.includes(this.searchWord))
         }
     },
     // 监控 data 中的数据变化
@@ -59,12 +59,20 @@ export default {
     // 方法集合
     methods: {
         searchEvent(val) {
-
             this.searchWord = val
         },
         getAllData() {
             getAllProduce().then(res => {
                 this.produceData = res.data.data;
+            })
+        },
+        deleteInsuranceFn(id) {
+            deleteInsurance(id).then(res => {
+                console.log(res.data);
+                this.$message.success("删除成功");
+                setTimeout(()=>{
+                    location.reload();
+                },1000)
             })
         }
     },
@@ -74,6 +82,7 @@ export default {
     },
     // 生命周期 - 挂载完成（可以访问 DOM 元素）
     mounted() {
+        this.getAllData()
     }
 }
 </script>

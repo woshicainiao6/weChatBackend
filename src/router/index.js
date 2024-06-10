@@ -8,8 +8,7 @@ import UserView from "@/views/UserView.vue";
 import ProductView from "@/views/ProductView.vue";
 import ModifyProduce from "@/components/produce/ModifyProduce.vue";
 import ViewDetails from "@/components/produce/ViewDetails.vue";
-import DeleteProduct from "@/components/produce/DeleteProduct.vue";
-
+import addProduce from "@/components/produce/addProduce.vue";
 Vue.use(VueRouter)
 
 const routes = [{
@@ -31,7 +30,7 @@ const routes = [{
 }, {
     path: '/viewDetails/:id', name: 'viewDetails', component: ViewDetails
 }, {
-    path: '/deleteProduct/:id', name: 'deleteProduct', component: DeleteProduct
+    path: '/addProduce', name: 'addProduce', component: addProduce
 }, {
     path: "/modifyProduce", component: UserView
 }, {
