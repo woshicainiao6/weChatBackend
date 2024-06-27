@@ -4,7 +4,7 @@
         <operatView @search_event="searchEvent" :operaEvent="operaEvent"></operatView>
 
         <div class="OrderTabel">
-            <OrderTable v-if="dataReady" :allOrderData="allOrderData" :insuranceData="insuranceData"></OrderTable>
+            <OrderTable v-if="dataReady" :allOrderData="searchData" :insuranceData="insuranceData"></OrderTable>
         </div>
     </div>
 </template>
@@ -36,7 +36,11 @@ export default {
         }
     },
     // 计算属性 类似于 data 概念
-    computed: {},
+    computed: {
+        searchData() {
+            return this.allOrderData.filter(item => item.applicantName.includes(this.searchWord))
+        }
+    },
     // 监控 data 中的数据变化
     watch: {},
     // 方法集合
@@ -68,5 +72,6 @@ export default {
 .OrderTabel {
     width: fit-content;
     margin-left: 10px;
+    height: fit-content;
 }
 </style>

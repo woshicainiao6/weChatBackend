@@ -12,7 +12,7 @@
                 :table-layout="tableLayout"
                 table-content-width='1350px'
                 style="margin-top: 10px"
-                height="500px"
+                max-height="500px"
                 :fixedRows="fixedTopAndBottomRows ? [2, 2] : undefined"
                 :scroll="virtualScroll ? { type: 'virtual' } : undefined"
                 :stripe="stripe"
@@ -137,7 +137,7 @@ export default {
                         newItem[key] = this.formatDate(item[key])
                     }
                     if (key === 'insuranceId') {
-                        newItem[key] =this.getInsuranceTitle(newItem[key])
+                        newItem[key] = this.getInsuranceTitle(newItem[key])
                     }
                 }
                 return newItem;
@@ -159,7 +159,7 @@ export default {
             this.$router.push(`/ViewOrder/${context['orderId']}`)
         },
         getInsuranceTitle(id) {
-            return this.insuranceData.filter(item=>item.id===id)[0]['title']
+            return this.insuranceData.filter(item => item.id === id)[0]['title']
         }
     },
     mounted() {
