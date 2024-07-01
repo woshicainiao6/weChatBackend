@@ -5,7 +5,7 @@
         <div class="produceContainer">
             <t-list :split="true" size="large" style="width: 92%;">
                 <t-list-item v-for="(item, index) in searchData" :key="index">
-                    <t-list-item-meta :image="item.thumb" :title="item.content"
+                    <t-list-item-meta :image="item.thumb" :title="item.title"
                                       :description="item.description"></t-list-item-meta>
                     <template #action>
           <span style="margin-right: 40px">

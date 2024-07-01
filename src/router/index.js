@@ -13,6 +13,7 @@ import ViewUser from "@/components/user/ViewUser.vue";
 import AddUser from "@/components/user/addUser.vue";
 import AddOrder from "@/components/order/addOrder.vue";
 import ViewOrder from "@/components/order/ViewOrder.vue";
+import ChineseMap from "@/views/ChineseMap.vue";
 
 Vue.use(VueRouter)
 
@@ -48,6 +49,8 @@ const routes = [{
     path: '/ViewOrder/:id', name: 'ViewOrder', component: ViewOrder
 }, {
     path: '/addOrder', name: 'AddOrder', component: AddOrder
+}, {
+    path: '/ChineseMap', name: 'ChineseMap', component: ChineseMap
 }
 
 

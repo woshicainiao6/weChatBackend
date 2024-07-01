@@ -37,11 +37,11 @@ export default {
                 radar: [
                     {
                         indicator: [
-                            {text: 'Indicator1'},
-                            {text: 'Indicator2'},
-                            {text: 'Indicator3'},
-                            {text: 'Indicator4'},
-                            {text: 'Indicator5'}
+                            {text: '汽车'},
+                            {text: '人寿'},
+                            {text: '健康'},
+                            {text: '儿童'},
+                            {text: '意外'}
                         ],
                         center: ['25%', '50%'],
                         radius: 120,
@@ -72,12 +72,12 @@ export default {
                     },
                     {
                         indicator: [
-                            {text: 'Indicator1', max: 150},
-                            {text: 'Indicator2', max: 150},
-                            {text: 'Indicator3', max: 150},
-                            {text: 'Indicator4', max: 120},
-                            {text: 'Indicator5', max: 108},
-                            {text: 'Indicator6', max: 72}
+                            {text: '汽车', max: 150},
+                            {text: '人寿', max: 150},
+                            {text: '健康', max: 150},
+                            {text: '儿童', max: 120},
+                            {text: '意外', max: 108},
+                            {text: '养老', max: 72}
                         ],
                         center: ['75%', '50%'],
                         radius: 120,
@@ -100,11 +100,11 @@ export default {
                         data: [
                             {
                                 value: [100, 8, 0.4, -80, 2000],
-                                name: 'Data A'
+                                name: '人寿保险'
                             },
                             {
                                 value: [60, 5, 0.3, -100, 1500],
-                                name: 'Data B',
+                                name: '健康保险',
                                 areaStyle: {
                                     color: 'rgba(255, 228, 52, 0.6)'
                                 }
@@ -117,7 +117,7 @@ export default {
                         data: [
                             {
                                 value: [120, 118, 130, 100, 99, 70],
-                                name: 'Data C',
+                                name: '儿童保险',
                                 symbol: 'rect',
                                 symbolSize: 12,
                                 lineStyle: {
@@ -132,7 +132,7 @@ export default {
                             },
                             {
                                 value: [100, 93, 50, 90, 70, 60],
-                                name: 'Data D',
+                                name: '车辆保险',
                                 areaStyle: {
                                     color: new echarts.graphic.RadialGradient(0.1, 0.6, 1, [
                                         {

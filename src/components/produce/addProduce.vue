@@ -52,6 +52,6 @@ export default {
 
 .Form {
     background-color: white;
-    height: 2000px;
+    height: 1350px;
 }
 </style>

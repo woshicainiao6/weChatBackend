@@ -6,10 +6,10 @@
                     <t-head-menu value="item1" height="120px">
                         <img
                                 slot="logo"
-                                width="136"
                                 class="logo"
-                                src=""
+                                src="../assets/logo.png"
                                 alt="logo"
+                                width="50"
                         />
                         <!--                        <t-menu-item value="item1">已选内容</t-menu-item>-->
 
@@ -54,7 +54,7 @@
                                     订单详情
                                 </t-menu-item>
                             </RouterLink>
-                            <RouterLink to="/test" class="custom-link">
+                            <RouterLink to="/ChineseMap" class="custom-link">
 
                                 <t-menu-item value="precise-monitor">
                                     <icon slot="icon" name="precise-monitor"/>
@@ -151,7 +151,8 @@ export default {
                     return 'root';
                 case '/order':
                     return 'control-platform';
-                // Add cases for other routes
+                case '/ChineseMap':
+                    return 'precise-monitor'
                 default:
                     return 'dashboard'; // Set a default value
             }

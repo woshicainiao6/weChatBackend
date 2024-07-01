@@ -12,17 +12,13 @@
 import UserTable from "@/components/user/UserTable.vue";
 import BreadCrumb from "@/components/Breadcrumb/BreadCrumb.vue";
 import OperatView from "@/components/UtileView/OperatView.vue";
-import {getAllUser} from "@/api/user";
-
+import { getAllUser } from "@/api/user";
 
 export default {
-    // import 引入的组件需要注入到对象中才能使用
     components: {
         UserTable, BreadCrumb, OperatView
     },
-    props: {},
     data() {
-        // 这里存放数据
         return {
             breadcrumbData: [{
                 name: '用户列表',
@@ -30,35 +26,34 @@ export default {
             }],
             searchWord: "",
             userData: [],
-            operaEvent:"addUser"
+            operaEvent: "addUser"
         }
     },
-    // 计算属性 类似于 data 概念
     computed: {
         searchData() {
-            return this.userData.filter(item => item.username.includes(this.searchWord));
+            if (!this.searchWord) {
+                return this.userData;
+            }
+            const searchWordLower = this.searchWord.toLowerCase();
+            return this.userData.filter(item => {
+                const username = item.username ? item.username.toLowerCase() : '';
+                const realName = item.realName ? item.realName.toLowerCase() : '';
+                return username.includes(searchWordLower) || realName.includes(searchWordLower);
+            });
         }
     },
-    // 监控 data 中的数据变化
-    watch: {},
-    // 方法集合
     methods: {
         getAllUserFn() {
             getAllUser().then(res => {
-                this.userData = res.data.data
-            })
+                this.userData = res.data.data;
+            });
         },
         searchEvent(val) {
-            this.searchWord = val
-            // console.log(val)
+            this.searchWord = val;
         }
     },
-    // 生命周期 - 创建完成（可以访问当前this 实例）
-    created() {
-    },
-    // 生命周期 - 挂载完成（可以访问 DOM 元素）
     mounted() {
-        this.getAllUserFn()
+        this.getAllUserFn();
     }
 }
 </script>

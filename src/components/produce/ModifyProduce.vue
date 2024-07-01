@@ -19,6 +19,7 @@ import {
 import PoduceForm from "@/components/produce/PoduceForm.vue";
 import {getInsuranceById} from "@/api/produce"
 
+
 export default {
     name: 'ModifyProduce',
     components: {
@@ -61,6 +62,6 @@ export default {
 
 .Form {
     background-color: white;
-    height: 2000px;
+    height: fit-content;
 }
 </style>

@@ -40,7 +40,7 @@ export default {
                 },
                 series: [
                     {
-                        name: 'Access From',
+                        name: '保险数量',
                         type: 'pie',
                         radius: ['40%', '70%'],
                         center: ['50%', '70%'],
@@ -48,11 +48,11 @@ export default {
                         startAngle: 180,
                         endAngle: 360,
                         data: [
-                            {value: 1048, name: 'Search Engine'},
-                            {value: 735, name: 'Direct'},
-                            {value: 580, name: 'Email'},
-                            {value: 484, name: 'Union Ads'},
-                            {value: 300, name: 'Video Ads'}
+                            {value: 1048, name: '人寿保险'},
+                            {value: 735, name: '健康保险'},
+                            {value: 580, name: '汽车保险'},
+                            {value: 484, name: '医疗保险'},
+                            {value: 300, name: '儿童保险'}
                         ]
                     }
                 ],
